@@ -1,11 +1,11 @@
-FROM ubuntu:14.04.2
+FROM scratch
 
-MAINTAINER support@shiyanlou.com
+COPY gnatsd /gnatsd
+COPY gnatsd.conf gnatsd.conf
 
-RUN useradd -m trylab
+# Expose client, management, and cluster ports
+EXPOSE 4222 8222 6222
 
-USER trylab
-
-WORKDIR /home/trylab
-
-CMD echo "shiyanlou trylab." | wc -
+# Run via the configuration file
+ENTRYPOINT ["/gnatsd"]
+CMD ["-c", "gnatsd.conf"]
